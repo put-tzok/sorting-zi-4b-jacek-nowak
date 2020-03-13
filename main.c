@@ -70,7 +70,34 @@ void insertion_sort(int *t, unsigned int n) {
 	}
 }
 
-void quick_sort(int *t, unsigned int n) {
+void swap (int* a, int* b){
+    int t=*a;
+    *a=*b;
+    *b=t;
+}
+
+int part (int *t, unsigned int n,int g[], int low, int high){
+    int pivot=g[high];
+    int i=(low-1);
+    int j;
+    for (j=low;j<=high-1;j++)
+    {
+        if(g[j]<pivot)
+        {
+            i++;
+            swap(&g[i],&g[j]);
+        }
+    }
+    swap(&g[i+1],&g[j]);
+    return (i+1);
+    }
+void quick_sort(int *t, unsigned int n,int g[], int low, int high) {
+    if (low<high)
+    {
+        int pi=part(g,low,high);
+        quick_sort(g,low,pi-1);
+        quick_sort(g,pi+1,high);
+    }
 
 }
 
@@ -83,7 +110,7 @@ void heap(int*t, unsigned int n, int i){
         if (right<n&&t[right]>t[max])
             max=right;
         if (max!=i){
-            swap(t[i], t[max]);
+            swap(&t[i], &t[max]);
             heap(t,n,max);
         }
 }
@@ -91,7 +118,7 @@ void heap_sort(int *t, unsigned int n) {
     for (int i=n/2-1;i>=0;i--)
         heap(t,n,i);
     for (int i=n-1;i>=0;i--){
-        swap(t[0],t[i]);
+        swap(&t[0],&t[i]);
         heap(t,i,0);
     }
 }
