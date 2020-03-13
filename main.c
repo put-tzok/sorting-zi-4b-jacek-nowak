@@ -6,32 +6,96 @@
 unsigned int ns[] = { 10, /* TODO: fill in "n" i.e. instance sizes */ };
 
 void fill_increasing(int *t, unsigned int n) {
-    // TODO: implement
+    int i;
+    for (i=0;i<n;i++){
+        t[i]=i;
+
+    }
 }
 
 void fill_decreasing(int *t, unsigned int n) {
-    // TODO: implement
+   int w[n];
+   int i;
+   w[n]=n;
+   for (i=0;i<n;i++)
+   {
+    n--;
+    w[n]=n;
+   }
 }
 
 void fill_vshape(int *t, unsigned int n) {
-    // TODO: implement
+    int i;
+     for(i=0;i<n;i++){
+    t[i]=i++;
+  }
+    int start=t[n-1];
+    int end=t[n-2];
+    t[0]=start;
+    t[n-1]=end;
+
 }
 
 void selection_sort(int *t, unsigned int n) {
-    // TODO: implement
+    	int pos, podmiana;
+	for (int c=0;c<(n);c++)
+        for (int c=0;c<(n--);c++){
+			pos=c;
+			for (int d=c++;d<n;d++){
+				if (t[pos]>t[d])
+					pos=d;
+					}
+			if (pos!=c){
+				podmiana=t[c];
+				t[c]=t[pos];
+				t[pos]=podmiana;
+			}
+		}
+
 }
 
 void insertion_sort(int *t, unsigned int n) {
-    // TODO: implement
+	int d, c;
+
+	for (int j=1;j<n-1;j++)
+	{
+		d=j;
+	}
+	while (d>0&&t[d]<t[d-1])
+	{
+		c=t[d];
+		t[d]=t[d-1];
+		t[d-1]=c;
+		d--;
+	}
 }
 
 void quick_sort(int *t, unsigned int n) {
-    // TODO: implement
+
 }
 
-void heap_sort(int *t, unsigned int n) {
-    // TODO
+void heap(int*t, unsigned int n, int i){
+    int max=i;
+    int left=2*i+1;
+    int right=2*i+2;
+        if (left<n&&t[left]>t[max])
+            max=left;
+        if (right<n&&t[right]>t[max])
+            max=right;
+        if (max!=i){
+            swap(t[i], t[max]);
+            heap(t,n,max);
+        }
 }
+void heap_sort(int *t, unsigned int n) {
+    for (int i=n/2-1;i>=0;i--)
+        heap(t,n,i);
+    for (int i=n-1;i>=0;i--){
+        swap(t[0],t[i]);
+        heap(t,i,0);
+    }
+}
+
 
 void fill_random(int *t, unsigned int n) {
     for (unsigned int i = 0; i < n; i++) {
