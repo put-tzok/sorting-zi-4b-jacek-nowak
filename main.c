@@ -3,69 +3,83 @@
 #include <stdlib.h>
 #include <time.h>
 
-unsigned int ns[] = { 10, /* TODO: fill in "n" i.e. instance sizes */ };
+using namespace std;
+
+// Project made by Jacek Nowak 4B and Xenia Pietrzyk 4B.
+
+unsigned int ns[] = { 10, 25, 50, 75, 150, 300, 900, 1800, 3600, 7500 };
 
 void fill_increasing(int *t, unsigned int n) {
-    int i;
-    for (i=0;i<n;i++){
-        t[i]=i;
 
-    }
+	int i;
+	for (i = 0; i < n; i++) 
+	{
+		t[i] = i;
+	}
 }
 
 void fill_decreasing(int *t, unsigned int n) {
-   int w[n];
-   int i;
-   w[n]=n;
-   for (i=0;i<n;i++)
-   {
-    n--;
-    w[n]=n;
-   }
+
+	int w[n];
+	int i;
+	w[n] = n;
+	for (i = 0; i < n; i++)
+	{
+		n--;
+		w[n] = n;
+	}
 }
 
 void fill_vshape(int *t, unsigned int n) {
-    int i;
-     for(i=0;i<n;i++){
-    t[i]=i++;
-  }
-    int start=t[n-1];
-    int end=t[n-2];
-    t[0]=start;
-    t[n-1]=end;
 
-}
+	int i;
+	for (i = 0; i < n; i++)
+	{
+		t[i] = i++;
+	}
+	int start = t[n - 1];
+	int end = t[n - 2];
+	t[0] = start;
+	t[n - 1] = end;
 
 void selection_sort(int *t, unsigned int n) {
-    	int pos, podmiana;
-	for (int c=0;c<(n);c++)
-        for (int c=0;c<(n--);c++){
-			pos=c;
-			for (int d=c++;d<n;d++){
-				if (t[pos]>t[d])
-					pos=d;
-					}
-			if (pos!=c){
-				podmiana=t[c];
-				t[c]=t[pos];
-				t[pos]=podmiana;
+    // TODO: implement
+	
+	int position, swap;
+
+	for (int c = 0; c < (n); c++)
+
+		for (int c = 0; c < (n - 1); c++)
+		{
+			position = c;
+			for (int d = c + 1; d < n; d++)
+			{
+				if (t[position] > t[d])
+					position = d;
+			}
+			if (position != c)
+			{
+				swap = t[c];
+				t[c] = t[position];
+				t[position] = swap;
 			}
 		}
-
 }
 
 void insertion_sort(int *t, unsigned int n) {
+    // TODO: implement
+
 	int d, c;
 
-	for (int j=1;j<n-1;j++)
+	for (int i = 1; i < n - 1; i++)
 	{
-		d=j;
+		d = i;
 	}
-	while (d>0&&t[d]<t[d-1])
+	while (d > 0 && t[d] < t[d - 1])
 	{
-		c=t[d];
-		t[d]=t[d-1];
-		t[d-1]=c;
+		c = t[d];
+		t[d] = t[d - 1];
+		t[d - 1] = c;
 		d--;
 	}
 }
@@ -80,13 +94,13 @@ void swap(int* a, int* b)
 int piv_l_partition(int *t, int low, int high)
 {
 	int pivot = t[high];
-	int i = (low - 1);
+	int i = (low - 1); 
 
 	for (int j = low; j <= high - 1; j++)
-	{
+	{		 
 		if (t[j] < pivot)
 		{
-			i++;
+			i++; 
 			swap(&t[i], &t[j]);
 		}
 	}
@@ -99,9 +113,9 @@ void quick_sort(int *t, int low, int high) {
 	// TODO: implement
 
 	if (low < high)
-	{
+	{		
 		int pivot = piv_l_partition(t, low, high);
-
+				 
 		quick_sort(t, low, pivot - 1);
 		quick_sort(t, pivot + 1, high);
 	}
@@ -110,13 +124,13 @@ void quick_sort(int *t, int low, int high) {
 int piv_2_partition(int *t, int low, int high, unsigned int n)
 {
 	int pivot = rand() % n;
-	int i = (low - 1);
+	int i = (low - 1); 
 
 	for (int j = low; j <= high - 1; j++)
-	{
+	{	  
 		if (t[j] < pivot)
 		{
-			i++;
+			i++; 
 			swap(&t[i], &t[j]);
 		}
 	}
@@ -129,34 +143,44 @@ void quick_sort_rdm(int *t, int low, int high, unsigned int n) {
 	if (low < high)
 	{
 		int pivot = piv_2_partition(t, low, high, n);
-
+	
 		quick_sort_rdm(t, low, pivot - 1, n);
 		quick_sort_rdm(t, pivot + 1, high, n);
 	}
 }
 
-void heap(int*t, unsigned int n, int i){
-    int max=i;
-    int left=2*i+1;
-    int right=2*i+2;
-        if (left<n&&t[left]>t[max])
-            max=left;
-        if (right<n&&t[right]>t[max])
-            max=right;
-        if (max!=i){
-            swap(&t[i], &t[max]);
-            heap(t,n,max);
-        }
-}
-void heap_sort(int *t, unsigned int n) {
-    for (int i=n/2-1;i>=0;i--)
-        heap(t,n,i);
-    for (int i=n-1;i>=0;i--){
-        swap(&t[0],&t[i]);
-        heap(t,i,0);
-    }
+void heap_heapify(int *t, unsigned int n, int i)
+{
+	int larg = i;
+	int l = 2 * i + 1;
+	int r = 2 * i + 2;
+
+	if (l < n && t[l] > t[larg])
+		larg = l;
+
+	if (r < n && t[r] > t[larg])
+		larg = r;
+
+	if (larg != i)
+	{
+		swap(t[i], t[larg]);
+		heap_heapify(t, n, larg);
+	}
 }
 
+
+void heap_sort(int *t, unsigned int n) {
+	// TODO
+
+	for (int i = n / 2 - 1; i >= 0; i--)
+		heap_heapify(t, n, i);
+
+	for (int i = n - 1; i >= 0; i--)
+	{
+		swap(t[0], t[i]);
+		heap_heapify(t, i, 0);
+	}
+}
 
 void fill_random(int *t, unsigned int n) {
     for (unsigned int i = 0; i < n; i++) {
