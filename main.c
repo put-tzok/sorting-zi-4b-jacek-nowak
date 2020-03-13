@@ -70,35 +70,69 @@ void insertion_sort(int *t, unsigned int n) {
 	}
 }
 
-void swap (int* a, int* b){
-    int t=*a;
-    *a=*b;
-    *b=t;
+void swap(int* a, int* b)
+{
+	int t = *a;
+	*a = *b;
+	*b = t;
 }
 
-int part (int *t, unsigned int n,int g[], int low, int high){
-    int pivot=g[high];
-    int i=(low-1);
-    int j;
-    for (j=low;j<=high-1;j++)
-    {
-        if(g[j]<pivot)
-        {
-            i++;
-            swap(&g[i],&g[j]);
-        }
-    }
-    swap(&g[i+1],&g[j]);
-    return (i+1);
-    }
-void quick_sort(int *t, unsigned int n,int g[], int low, int high) {
-    if (low<high)
-    {
-        int pi=part(g,low,high);
-        quick_sort(g,low,pi-1);
-        quick_sort(g,pi+1,high);
-    }
+int piv_l_partition(int *t, int low, int high)
+{
+	int pivot = t[high];
+	int i = (low - 1);
 
+	for (int j = low; j <= high - 1; j++)
+	{
+		if (t[j] < pivot)
+		{
+			i++;
+			swap(&t[i], &t[j]);
+		}
+	}
+	swap(&t[i + 1], &t[high]);
+	return (i + 1);
+}
+
+
+void quick_sort(int *t, int low, int high) {
+	// TODO: implement
+
+	if (low < high)
+	{
+		int pivot = piv_l_partition(t, low, high);
+
+		quick_sort(t, low, pivot - 1);
+		quick_sort(t, pivot + 1, high);
+	}
+}
+
+int piv_2_partition(int *t, int low, int high, unsigned int n)
+{
+	int pivot = rand() % n;
+	int i = (low - 1);
+
+	for (int j = low; j <= high - 1; j++)
+	{
+		if (t[j] < pivot)
+		{
+			i++;
+			swap(&t[i], &t[j]);
+		}
+	}
+	swap(&t[i + 1], &t[high]);
+	return (i + 1);
+}
+void quick_sort_rdm(int *t, int low, int high, unsigned int n) {
+	// TODO: implement
+
+	if (low < high)
+	{
+		int pivot = piv_2_partition(t, low, high, n);
+
+		quick_sort_rdm(t, low, pivot - 1, n);
+		quick_sort_rdm(t, pivot + 1, high, n);
+	}
 }
 
 void heap(int*t, unsigned int n, int i){
